@@ -95,7 +95,14 @@ let expenseList = env.expenses
 
     <div class="card-body">
 
-        <h5 class="card-title">${env.name}</h5>
+      <div class="d-flex justify-content-between align-items-center">
+  <h5 class="card-title mb-0">${env.name}</h5>
+
+  <button class="btn btn-sm btn-outline-danger"
+      onclick="deleteEnvelope(${index})">
+      ❌
+  </button>
+</div>
 
         <p class="card-text mb-1"><strong>Total:</strong> ₹${env.budget}</p>
         <p class="card-text mb-1"><strong>Spent:</strong> ₹${env.spent}</p>
@@ -242,3 +249,15 @@ function saveData(){
     localStorage.setItem("envelopes", JSON.stringify(envelopes));
 }
 
+function deleteEnvelope(index) {
+
+    const confirmDelete = confirm(
+        `Delete envelope "${envelopes[index].name}"?\nAll expenses will be lost.`
+    );
+
+    if (!confirmDelete) return;
+
+    envelopes.splice(index, 1);
+    saveData();
+    renderEnvelopes();
+}
